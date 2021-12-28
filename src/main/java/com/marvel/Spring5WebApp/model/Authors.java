@@ -1,6 +1,7 @@
 package com.marvel.Spring5WebApp.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,16 +12,15 @@ public class Authors {
     private String firstName;
     private String lastName;
     @ManyToMany(mappedBy = "authors")
-    private Set<Books> books;
+    private Set<Books> books = new HashSet<>();
 
     public Authors() {
         //Because JPA requires empty constructors
     }
 
-    public Authors(String firstName, String lastName, Set<Books> books) {
+    public Authors(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.books = books;
     }
 
     public String getFirstName() {

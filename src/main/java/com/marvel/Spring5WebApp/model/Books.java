@@ -1,6 +1,7 @@
 package com.marvel.Spring5WebApp.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -9,21 +10,20 @@ public class Books {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String isPublished;
+    private String ISBN;
 
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Authors> authors;
+    private Set<Authors> authors  = new HashSet<>();
 
     public Books() {
         //JPA requires empty constructor
     }
 
-    public Books(String name, String isPublished, Set<Authors> authors) {
+    public Books(String name, String ISBN) {
         this.name = name;
-        this.isPublished = isPublished;
-        this.authors = authors;
+        this.ISBN = ISBN;
     }
 
     public Long getId() {
@@ -42,12 +42,12 @@ public class Books {
         this.name = name;
     }
 
-    public String getIsPublished() {
-        return isPublished;
+    public String getISBN() {
+        return ISBN;
     }
 
-    public void setIsPublished(String isPublished) {
-        this.isPublished = isPublished;
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 
     public Set<Authors> getAuthors() {
@@ -70,7 +70,7 @@ public class Books {
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Books {
         return "Books{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isPublished='" + isPublished + '\'' +
+                ", isPublished='" + ISBN + '\'' +
                 ", authors=" + authors +
                 '}';
     }
